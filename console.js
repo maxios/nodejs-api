@@ -27,8 +27,10 @@
 
 let repl = require('repl');
 let models = require('./models');
+global['available_models'] = [];
 
 Object.keys(models).forEach(modelName => {
+  global['available_models'].push(modelName);
   global[modelName] = models[modelName];
 });
 
