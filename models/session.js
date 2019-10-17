@@ -1,6 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Session = sequelize.define('Session', {
+    uid: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
+    },
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
     start_time: DataTypes.DATE,
@@ -19,7 +23,11 @@ module.exports = (sequelize, DataTypes) => {
     duration_in_minutes: DataTypes.INTEGER
   }, {});
   Session.associate = function(models) {
-    Session.belongsToMany(models.Science, {through: 'SessionSciences'})
+    Session.belongsToMany(models.Science, {through: 'SessionScience', foreignKey: 'session_id'})
+    Session.belongsToMany(models.Tag, {through: 'Taggable', foreignKey: 'session_id'})
+    Session.belongsToMany(models.Instructor, {through: 'Instructable', foreignKey: 'session_id'})
+    Session.hasOne(models.Location, {foreignKey: 'location_id'})
+    Session.hasOne(models.System, {foreignKey: 'system_id'})
   };
   return Session;
 };

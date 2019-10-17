@@ -11,3 +11,14 @@ ORM console:
 
       cd <PROJECT_ROOT_PATH>
       node console.js
+
+
+ORM console usage:
+
+  fetch all data:
+
+      MODEL.findAll({raw: true}).then(console.log).catch(console.log)
+
+  create record:
+
+      Model.create({<attributes written here>}).then(console.log).catch(console.log)

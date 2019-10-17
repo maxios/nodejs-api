@@ -26,18 +26,15 @@
  */
 
 let repl = require('repl');
-let models = require('./models');
-global['available_models'] = [];
+let required_models = require('./models');
 
-Object.keys(models).forEach(modelName => {
-  global['available_models'].push(modelName);
-  global[modelName] = models[modelName];
+global['app'] = { models: {} };
+Object.keys(required_models).forEach(modelName => {
+  global[modelName] = required_models[modelName];
 });
-
-// global['DateTime'] = require('./lib/DateTime').default;
 
 let replServer = repl.start({
   prompt: 'app > '
 });
 
-replServer.context.db = models;
+replServer.context.db = required_models;
