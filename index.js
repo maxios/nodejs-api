@@ -1,4 +1,5 @@
-const express = require('express')
+require('module-alias/register');
+const express = require('express');
 
 const routes = require('./api');
 
