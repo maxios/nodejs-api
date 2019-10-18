@@ -1,6 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Instructor = sequelize.define('Instructor', {
+    uid: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
+    },
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     visisble: DataTypes.BOOLEAN,
@@ -8,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     order: DataTypes.INTEGER
   }, {});
   Instructor.associate = function(models) {
-    // associations can be defined here
+    Instructor.belongsToMany(models.Session, {through: 'Instructable', foreignKey: 'instructor_id'})
   };
   return Instructor;
 };
