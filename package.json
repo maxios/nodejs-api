@@ -27,6 +27,7 @@
     "sequelize": "^5.19.3"
   },
   "devDependencies": {
+    "eslint": "^6.5.1",
     "factory-girl": "^5.0.4",
     "nodemon": "^1.19.4",
     "repl": "^0.1.3",
