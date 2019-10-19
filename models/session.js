@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     end_time: DataTypes.DATE,
     start_date: DataTypes.DATE,
     end_date: DataTypes.DATE,
+    days: DataTypes.ARRAY(DataTypes.STRING),
     system_id: DataTypes.INTEGER,
     location_id: DataTypes.INTEGER,
     rowaq_id: DataTypes.INTEGER,

@@ -30,6 +30,9 @@ module.exports = {
       end_date: {
         type: Sequelize.DATE
       },
+      days: {
+        type: Sequelize.ARRAY(Sequelize.STRING)
+      },
       system_id: {
         type: Sequelize.INTEGER,
         references: {
