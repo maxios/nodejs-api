@@ -44,6 +44,9 @@ module.exports = {
           key: 'id'
         }
       },
+      rowaq_id: {
+        type: Sequelize.INTEGER,
+      },
       no_lectures: {
         type: Sequelize.BOOLEAN
       },

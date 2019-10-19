@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     end_date: DataTypes.DATE,
     system_id: DataTypes.INTEGER,
     location_id: DataTypes.INTEGER,
+    rowaq_id: DataTypes.INTEGER,
     no_lectures: DataTypes.BOOLEAN,
     soundcloud_url: DataTypes.STRING,
     youtube_url: DataTypes.STRING,
