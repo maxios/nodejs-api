@@ -23,3 +23,9 @@ ORM console usage:
       Model.create({<attributes written here>}).then(console.log).catch(console.log)
 
 
+Deployment:
+
+    ssh <VPC ADDRESS>
+    cd <PROJECT PATH>
+    git pull the changes
+    pm2 restart core
