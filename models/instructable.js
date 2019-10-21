@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Instructable.associate = function(models) {
     // associations can be defined here
-    Instructable.belongsTo(models.Session, {foreignKey: 'session_id'})
-    Instructable.belongsTo(models.Instructor, {foreignKey: 'instructor_id'})
+    Instructable.belongsTo(models.Session, {foreignKey: 'id'})
+    Instructable.belongsTo(models.Instructor, {foreignKey: 'id'})
   };
   return Instructable;
 };

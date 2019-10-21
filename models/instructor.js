@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     description: DataTypes.STRING,
-    visisble: DataTypes.BOOLEAN,
+    visible: DataTypes.BOOLEAN,
     status: DataTypes.STRING,
     order: DataTypes.INTEGER
   }, {});
