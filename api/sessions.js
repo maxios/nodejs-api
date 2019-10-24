@@ -1,16 +1,21 @@
+const Sequelize = require('sequelize');
+const DateFns = require('date-fns');
 const router = require('express').Router();
 const Session = require('@models').Session;
 const SessionEntity = require('@entities').SessionEntity;
 
 const serializeResult = result => SessionEntity.represent(result);
+const Op = Sequelize.Op;
 
 // GET all Records
 router.get('/', (req, res) => {
-  Session.findAll({raw: true})
+  const lastDayNextMonth = DateFns.lastDayOfMonth(DateFns.addMonths(new Date(), 1));
+  const firstDayMonth = DateFns.startOfMonth(new Date());
+  Session.findAll({where: {[Op.or]: [{start_date: {[Op.between]: [firstDayMonth, lastDayNextMonth]}}, {end_date: {[Op.between]: [firstDayMonth, lastDayNextMonth]}}]} })
     .then(result => {
       res.json(serializeResult(result));
     })
-    .catch(err => res.send(err))
+    .catch(err => console.log(err))
 });
 
 // GET one record - where: uid
