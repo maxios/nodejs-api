@@ -29,6 +29,7 @@ let repl = require('repl');
 let required_models = require('./models');
 
 global['app'] = { models: {} };
+global['DateFns'] = require('date-fns');
 Object.keys(required_models).forEach(modelName => {
   global[modelName] = required_models[modelName];
 });

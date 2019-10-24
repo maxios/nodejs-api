@@ -51,7 +51,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       no_lectures: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.INTEGER
       },
       soundcloud_url: {
         type: Sequelize.STRING

@@ -28,8 +28,8 @@ module.exports = (sequelize, DataTypes) => {
     Session.belongsToMany(models.Science, {through: 'SessionScience', foreignKey: 'session_id'})
     Session.belongsToMany(models.Tag, {through: 'Taggable', foreignKey: 'session_id'})
     Session.belongsToMany(models.Instructor, {through: 'Instructable', foreignKey: 'session_id'})
-    Session.hasOne(models.Location, {foreignKey: 'location_id'})
-    Session.hasOne(models.System, {foreignKey: 'system_id'})
+    Session.hasOne(models.Location, {foreignKey: 'id'})
+    Session.hasOne(models.System, {foreignKey: 'id'})
   };
   return Session;
 };
