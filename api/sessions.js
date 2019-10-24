@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const Session = require('@models').System;
-const SessionEntity = require('@entities').SystemEntity;
+const Session = require('@models').Session;
+const SessionEntity = require('@entities').SessionEntity;
 
 const serializeResult = result => SessionEntity.represent(result);
 
