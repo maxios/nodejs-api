@@ -7,11 +7,26 @@ const SessionEntity = require('@entities').SessionEntity;
 const serializeResult = result => SessionEntity.represent(result);
 const Op = Sequelize.Op;
 
-// GET all Records
+/**
+  /: get all sessions
+  */
 router.get('/', (req, res) => {
   const lastDayNextMonth = DateFns.lastDayOfMonth(DateFns.addMonths(new Date(), 1));
   const firstDayMonth = DateFns.startOfMonth(new Date());
-  Session.findAll({where: {[Op.or]: [{start_date: {[Op.between]: [firstDayMonth, lastDayNextMonth]}}, {end_date: {[Op.between]: [firstDayMonth, lastDayNextMonth]}}]} })
+  console.log(req.body["days"])
+  Session.findAll({
+    where: [{
+      [Op.or]: [{
+        start_date: {
+          [Op.between]: [firstDayMonth, lastDayNextMonth]
+        }
+      }, {
+        end_date: {
+          [Op.between]: [firstDayMonth, lastDayNextMonth]
+        }
+      }]
+    }, req.body]
+  })
     .then(result => {
       res.json(serializeResult(result));
     })
