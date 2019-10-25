@@ -12,21 +12,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.UUID
       },
-      session_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Sessions',
-          key: 'id'
-        },
-        allowNull: false
-      },
       science_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Sciences',
-          key: 'id'
-        },
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      session_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -38,7 +30,7 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: queryInterface => {
     return queryInterface.dropTable('SessionSciences');
   }
 };

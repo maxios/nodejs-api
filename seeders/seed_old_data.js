@@ -127,13 +127,39 @@ const mappedCourses = R.map(({
   updatedAt: new Date()
 }));
 
+const filterInstructor = data => R.filter(R.propIs(String, 'CourseInstructor'), data)
+const filterScience = data => R.filter(R.propIs(String, 'CourseScience'), data)
+const mappedInstructables = R.map(({
+  CourseId: session_id,
+  CourseInstructor: instructor_id
+}) => ({
+  uid: uuid(),
+  session_id: parseInt(session_id),
+  instructor_id: parseInt(instructor_id),
+  createdAt: new Date(),
+  updatedAt: new Date()
+}));
+
+const mappedSessionScience = R.map(({
+  CourseId: session_id,
+  CourseScience: science_id
+}) => ({
+  uid: uuid(),
+  session_id: parseInt(session_id),
+  science_id: parseInt(science_id),
+  createdAt: new Date(),
+  updatedAt: new Date()
+}));
+
 module.exports = {
   up: async queryInterface => {
     await queryInterface.bulkInsert('Instructors', mappedInstructors(data["Instructors"]), {});
     await queryInterface.bulkInsert('Sciences', mappedSciences(data["Science"]), {});
     await queryInterface.bulkInsert('Locations', mappedLocations(data["Locations"]), {});
     await queryInterface.bulkInsert('Systems', mappedSystems(data["Systems"]), {});
-    return queryInterface.bulkInsert('Sessions', mappedCourses(data["Courses"]), {});
+    await queryInterface.bulkInsert('Sessions', mappedCourses(data["Courses"]), {});
+    await queryInterface.bulkInsert('Instructables', mappedInstructables(filterInstructor(data["Courses"])), {});
+    return queryInterface.bulkInsert('SessionSciences', mappedSessionScience(filterScience(data["Courses"])), {});
   },
   down: queryInterface => {
     return queryInterface.bulkDelete('sessions', null, {});
