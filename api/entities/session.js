@@ -9,6 +9,7 @@ module.exports = Base.extend({
   end_time: true,
   start_date: true,
   end_date: true,
+  days: true,
   system: { using: System },
   location: { using: Location },
   no_lectures: true,
