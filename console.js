@@ -27,6 +27,13 @@
 
 let repl = require('repl');
 let required_models = require('./models');
+const fs = require('fs');
+
+// touch .node_history file if it is not exist
+if (!fs.existsSync(process.cwd() + '/.node_history')) {
+  console.log('remove & add .node_history');
+  fs.closeSync(fs.openSync('.node_history', 'w'));
+}
 
 global['app'] = { models: {} };
 global['DateFns'] = require('date-fns');
@@ -38,4 +45,5 @@ let replServer = repl.start({
   prompt: 'app > '
 });
 
+require('repl.history')(replServer, process.cwd() + '/.node_history');
 replServer.context.db = required_models;
