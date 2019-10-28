@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   System.associate = function(models) {
     // associations can be defined here
+    System.belongsTo(models.Session, {foreignKey: 'id'})
   };
   return System;
 };

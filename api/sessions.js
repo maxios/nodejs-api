@@ -2,6 +2,8 @@ const Sequelize = require('sequelize');
 const DateFns = require('date-fns');
 const router = require('express').Router();
 const Session = require('@models').Session;
+const Location = require('@models').Location;
+const System = require('@models').System;
 const SessionEntity = require('@entities').SessionEntity;
 
 const serializeResult = result => SessionEntity.represent(result);
@@ -35,8 +37,11 @@ router.get('/', (req, res) => {
 
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
-  Session.findOne({where: {uid: req.params.uid}})
-    .then(result => res.json(serializeResult(result)))
+  Session.findOne({raw: true, nest: true, where: {uid: req.params.uid}, include: [{model: Location}, {model: System}]})
+    .then(result => {
+      console.log(result);
+      return res.json(serializeResult(result))
+    })
     .catch(err => res.send(err));
 })
 

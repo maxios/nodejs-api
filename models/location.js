@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Location.associate = function(models) {
     // associations can be defined here
+    Location.belongsTo(models.Session, {foreignKey: 'id'})
   };
   return Location;
 };

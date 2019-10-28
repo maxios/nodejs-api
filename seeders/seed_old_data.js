@@ -87,6 +87,7 @@ const mappedSystems = R.map(({
 }));
 
 const mappedCourses = R.map(({
+  CourseId: id,
   CourseName: name,
   CourseDescription: description,
   CourseWeekDay: week_day,
@@ -105,6 +106,7 @@ const mappedCourses = R.map(({
   PaymeUrl: payment_url,
   CourseDuration: duration_in_minutes
 }) => ({
+  id: parseInt(id),
   uid: uuid(),
   name,
   description,
