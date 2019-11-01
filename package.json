@@ -17,7 +17,8 @@
   "_moduleAliases": {
     "@root": ".",
     "@models": "models",
-    "@entities": "api/entities"
+    "@entities": "api/entities",
+    "@constants": "utils/constants"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

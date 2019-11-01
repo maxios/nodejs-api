@@ -15,8 +15,13 @@ const Op = Sequelize.Op;
 router.get('/', (req, res) => {
   const lastDayNextMonth = DateFns.lastDayOfMonth(DateFns.addMonths(new Date(), 1));
   const firstDayMonth = DateFns.startOfMonth(new Date());
-  console.log(req.body["days"])
+
   Session.findAll({
+    include: [{
+      model: System
+    }, {
+      model: Location
+    }],
     where: [{
       [Op.or]: [{
         start_date: {
@@ -32,7 +37,7 @@ router.get('/', (req, res) => {
     .then(result => {
       res.json(serializeResult(result));
     })
-    .catch(err => console.log(err))
+    .catch(err => res.send(err))
 });
 
 // GET one record - where: uid

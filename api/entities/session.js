@@ -1,6 +1,5 @@
 const Base = require('@entities/base');
-const System = require('@entities/system');
-const Location = require('@entities/location');
+const Minimal = require('@entities/minimal');
 
 module.exports = Base.extend({
   name: true,
@@ -10,8 +9,8 @@ module.exports = Base.extend({
   start_date: true,
   end_date: true,
   days: true,
-  System: { using: System },
-  Location: { using: Location },
+  System: { using: Minimal },
+  Location: { using: Minimal },
   no_lectures: true,
   soundcloud_url: true,
   youtube_url: true,
