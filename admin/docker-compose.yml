@@ -1,0 +1,19 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: admin
+    environment:
+      - APPLICATION_HOST=localhost
+      - APPLICATION_PORT=3310
+      - DATABASE_URL=postgres://maxios:khalidmaxios@host.docker.internal:5432/sheikh_alamoud_development
+      - DATABASE_SCHEMA=public
+      - DATABASE_SSL=false
+      - DATABASE_ENCRYPT=false
+      - AUTH_SECRET=54a51a491ad7195136876ee78cdf6ca11e60c1dcf357db33480d405f32867fbc90a63444ef84e4911861f616734b20e5
+    ports:
+      - "3310:3310"
+    volumes:
+      - ./:/usr/src/app

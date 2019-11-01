@@ -12,7 +12,10 @@ module.exports = (sequelize, DataTypes) => {
     order: DataTypes.INTEGER
   }, {});
   Instructor.associate = function(models) {
-    Instructor.belongsToMany(models.Session, {through: 'Instructable', foreignKey: 'instructor_id'})
+    Instructor.belongsToMany(models.Session, {
+      through: 'Instructable',
+      foreignKey: 'session_id'
+    });
   };
   return Instructor;
 };

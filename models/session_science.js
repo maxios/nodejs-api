@@ -9,9 +9,12 @@ module.exports = (sequelize, DataTypes) => {
     science_id: DataTypes.INTEGER
   }, {});
   SessionScience.associate = function(models) {
-    // associations can be defined here
-    SessionScience.belongsTo(models.Session, {foreignKey: 'session_id'})
-    SessionScience.belongsTo(models.Science, {foreignKey: 'science_id'})
+    SessionScience.belongsTo(models.Session, {
+      foreignKey: 'session_id'
+    });
+    SessionScience.belongsTo(models.Science, {
+      foreignKey: 'science_id'
+    });
   };
   return SessionScience;
 };

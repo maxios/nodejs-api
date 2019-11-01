@@ -9,7 +9,10 @@ module.exports = (sequelize, DataTypes) => {
     parent_id: DataTypes.INTEGER
   }, {});
   Science.associate = function(models) {
-    Science.belongsToMany(models.Session, {through: 'SessionScience', foreignKey: 'science_id'})
+    Science.belongsToMany(models.Session, {
+      through: 'SessionScience',
+      foreignKey: 'session_id'
+    });
   };
   return Science;
 };

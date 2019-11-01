@@ -10,8 +10,9 @@ module.exports = (sequelize, DataTypes) => {
     visible: DataTypes.BOOLEAN
   }, {});
   System.associate = function(models) {
-    // associations can be defined here
-    System.belongsTo(models.Session, {foreignKey: 'id'})
+    System.hasMany(models.Session, {
+      foreignKey: 'id'
+    });
   };
   return System;
 };

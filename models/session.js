@@ -25,11 +25,30 @@ module.exports = (sequelize, DataTypes) => {
     duration_in_minutes: DataTypes.INTEGER
   }, {});
   Session.associate = function(models) {
-    Session.belongsToMany(models.Science, {through: 'SessionScience', foreignKey: 'session_id'})
-    Session.belongsToMany(models.Tag, {through: 'Taggable', foreignKey: 'session_id'})
-    Session.belongsToMany(models.Instructor, {through: 'Instructable', foreignKey: 'session_id'})
-    Session.hasOne(models.Location, {foreignKey: 'id', sourceKey: 'location_id'})
-    Session.hasOne(models.System, {foreignKey: 'id', sourceKey: 'system_id'})
+    Session.belongsToMany(models.Science, {
+      through: 'SessionScience',
+      foreignKey: 'science_id'
+    });
+    Session.belongsToMany(models.Tag, {
+      through: 'Taggable',
+      foreignKey: 'session_id'
+    });
+    Session.belongsToMany(models.Instructor, {
+      through: 'Instructable',
+      foreignKey: 'session_id'
+    });
+    Session.belongsTo(models.Location, {
+      foreignKey: {
+        name: 'locationId',
+        field: 'location_id',
+      }
+    });
+    Session.belongsTo(models.System, {
+      foreignKey: {
+        name: 'SystemId',
+        field: 'system_id',
+      }
+    });
   };
   return Session;
 };
