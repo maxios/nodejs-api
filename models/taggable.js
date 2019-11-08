@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     session_id: DataTypes.INTEGER
   }, {});
   Taggable.associate = function(models) {
-    Taggable.belongsTo(models.Tag, {foreignKey: 'tag_id'})
-    Taggable.belongsTo(models.Session, {foreignKey: 'session_id'})
+    Taggable.belongsTo(models.Tag, {foreignKey: 'id'})
+    Taggable.belongsTo(models.Session, {foreignKey: 'id'})
   };
   return Taggable;
 };

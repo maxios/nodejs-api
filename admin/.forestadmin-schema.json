@@ -842,7 +842,7 @@
       "validations": []
     }, {
       "field": "no_lectures",
-      "type": "Boolean",
+      "type": "Number",
       "defaultValue": null,
       "enums": null,
       "integration": null,
@@ -1327,7 +1327,7 @@
       "isRequired": false,
       "isSortable": true,
       "isVirtual": false,
-      "reference": "Session.session_id",
+      "reference": "Session.id",
       "inverseOf": null,
       "relationship": "BelongsTo",
       "validations": []
@@ -1342,7 +1342,7 @@
       "isRequired": false,
       "isSortable": true,
       "isVirtual": false,
-      "reference": "Tag.tag_id",
+      "reference": "Tag.id",
       "inverseOf": null,
       "relationship": "BelongsTo",
       "validations": []
@@ -1362,6 +1362,20 @@
       "validations": []
     }, {
       "field": "session_id",
+      "type": "Number",
+      "defaultValue": null,
+      "enums": null,
+      "integration": null,
+      "isFilterable": true,
+      "isReadOnly": false,
+      "isRequired": false,
+      "isSortable": true,
+      "isVirtual": false,
+      "reference": null,
+      "inverseOf": null,
+      "validations": []
+    }, {
+      "field": "tag_id",
       "type": "Number",
       "defaultValue": null,
       "enums": null,
