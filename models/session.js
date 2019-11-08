@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   Session.associate = function(models) {
     Session.belongsToMany(models.Science, {
       through: 'SessionScience',
-      foreignKey: 'science_id'
+      foreignKey: 'session_id'
     });
     Session.belongsToMany(models.Tag, {
       through: 'Taggable',

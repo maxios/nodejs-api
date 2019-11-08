@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   SessionScience.associate = function(models) {
     SessionScience.belongsTo(models.Session, {
-      foreignKey: 'session_id'
+      foreignKey: 'id'
     });
     SessionScience.belongsTo(models.Science, {
-      foreignKey: 'science_id'
+      foreignKey: 'id'
     });
   };
   return SessionScience;

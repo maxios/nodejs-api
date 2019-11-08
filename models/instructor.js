@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   Instructor.associate = function(models) {
     Instructor.belongsToMany(models.Session, {
       through: 'Instructable',
-      foreignKey: 'session_id'
+      foreignKey: 'instructor_id'
     });
   };
   return Instructor;

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   Tag.associate = function(models) {
     Tag.belongsToMany(models.Session, {
       through: 'Taggable',
-      foreignKey: 'session_id'
+      foreignKey: 'tag_id'
     });
   };
   return Tag;

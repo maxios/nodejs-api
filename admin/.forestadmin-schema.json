@@ -230,7 +230,7 @@
       "isRequired": false,
       "isSortable": true,
       "isVirtual": false,
-      "reference": "Session.session_id",
+      "reference": "Session.instructor_id",
       "inverseOf": null,
       "relationship": "BelongsToMany",
       "validations": []
@@ -510,7 +510,7 @@
       "isRequired": false,
       "isSortable": true,
       "isVirtual": false,
-      "reference": "Session.session_id",
+      "reference": "Session.science_id",
       "inverseOf": null,
       "relationship": "BelongsToMany",
       "validations": []
@@ -652,7 +652,7 @@
       "isRequired": false,
       "isSortable": true,
       "isVirtual": false,
-      "reference": "Science.science_id",
+      "reference": "Science.session_id",
       "inverseOf": null,
       "relationship": "BelongsToMany",
       "validations": []
@@ -990,7 +990,7 @@
       "isRequired": false,
       "isSortable": true,
       "isVirtual": false,
-      "reference": "Science.science_id",
+      "reference": "Science.id",
       "inverseOf": null,
       "relationship": "BelongsTo",
       "validations": []
@@ -1005,7 +1005,7 @@
       "isRequired": false,
       "isSortable": true,
       "isVirtual": false,
-      "reference": "Session.session_id",
+      "reference": "Session.id",
       "inverseOf": null,
       "relationship": "BelongsTo",
       "validations": []
@@ -1229,7 +1229,7 @@
       "isRequired": false,
       "isSortable": true,
       "isVirtual": false,
-      "reference": "Session.session_id",
+      "reference": "Session.tag_id",
       "inverseOf": null,
       "relationship": "BelongsToMany",
       "validations": []
