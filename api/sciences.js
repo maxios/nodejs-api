@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Science = require('@models').Science;
 const ScienceEntity = require('@entities').ScienceEntity;
+const R = require('ramda');
 
 const serializeResult = result => ScienceEntity.represent(result);
 
@@ -12,6 +13,14 @@ router.get('/', (req, res) => {
     })
     .catch(err => res.send(err))
 });
+
+router.get('/forest', (req, res) => {
+  Science.findAll({raw: true})
+    .then(result => {
+      res.json({data: R.map(R.prop('name'))(serializeResult(result))});
+    })
+    .catch(err => res.send(err))
+})
 
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
