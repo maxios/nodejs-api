@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index",
-    "console": "node console.js"
+    "console": "node console.js",
+    "setup-database": "sequelize db:create && sequelize db:migrate && sequelize db:seed:all"
   },
   "keywords": [
     "sheikh",
