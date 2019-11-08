@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     system_id: DataTypes.INTEGER,
     location_id: DataTypes.INTEGER,
     rowaq_id: DataTypes.INTEGER,
-    no_lectures: DataTypes.BOOLEAN,
+    no_lectures: DataTypes.INTEGER,
     soundcloud_url: DataTypes.STRING,
     youtube_url: DataTypes.STRING,
     google_url: DataTypes.STRING,

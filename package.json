@@ -18,7 +18,8 @@
     "@root": ".",
     "@models": "models",
     "@entities": "api/entities",
-    "@constants": "utils/constants"
+    "@constants": "utils/constants",
+    "@utils": "utils"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
