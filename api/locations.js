@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Location = require('@models').Location;
 const LocationEntity = require('@entities').LocationEntity;
+const mapByProp = require('@utils').mapByProp
 
 const serializeResult = result => LocationEntity.represent(result);
 
@@ -12,6 +13,14 @@ router.get('/', (req, res) => {
     })
     .catch(err => res.send(err))
 });
+
+router.get('/forest', (req, res) => {
+  Location.findAll({raw: true})
+    .then(result => {
+      res.json({data: mapByProp('name', serializeResult(result))});
+    })
+    .catch(err => res.send(err))
+})
 
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
