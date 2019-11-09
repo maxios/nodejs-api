@@ -52,6 +52,7 @@ const mappedSciences = R.map(({
   uid: uuid(),
   name,
   parent_id: parent_id === null ? null : parseInt(parent_id),
+  parent_uid: 'd66b0d21-4d41-4045-8468-b221a7df56ed',
   createdAt: new Date(),
   updatedAt: new Date()
 }));

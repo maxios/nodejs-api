@@ -18,6 +18,9 @@ module.exports = {
       parent_id: {
         type: Sequelize.INTEGER
       },
+      parent_uid: {
+        type: Sequelize.Sequelize.UUID
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -41,6 +41,19 @@ Object.keys(required_models).forEach(modelName => {
   global[modelName] = required_models[modelName];
 });
 
+global['generate_science_parent_uid'] = function() {
+  global['Science'].findAll().then(sciences => {
+    sciences.forEach(science => {
+      const parent_id = science.get('parent_id');
+      if(parent_id !== null) {
+        global['Science'].findOne({where: {id: parent_id}}).then(res => {
+          science.update({parent_uid: res.get('uid')})
+        }).catch(console.log)
+      }
+    }).catch(console.log)
+  })
+}
+
 let replServer = repl.start({
   prompt: 'app > '
 });
