@@ -384,7 +384,7 @@
       "isRequired": false,
       "isSortable": true,
       "isVirtual": false,
-      "reference": "Session.id",
+      "reference": "Session.location_id",
       "inverseOf": null,
       "relationship": "HasMany",
       "validations": []
@@ -1103,7 +1103,7 @@
       "isRequired": false,
       "isSortable": true,
       "isVirtual": false,
-      "reference": "Session.id",
+      "reference": "Session.system_id",
       "inverseOf": null,
       "relationship": "HasMany",
       "validations": []

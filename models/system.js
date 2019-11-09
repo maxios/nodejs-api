@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   System.associate = function(models) {
     System.hasMany(models.Session, {
-      foreignKey: 'id'
+      foreignKey: 'system_id'
     });
   };
   return System;

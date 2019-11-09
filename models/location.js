@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Location.associate = function(models) {
     Location.hasMany(models.Session, {
-      foreignKey: 'id'
+      foreignKey: 'location_id'
     })
   };
   return Location;
