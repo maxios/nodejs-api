@@ -5,5 +5,6 @@ module.exports = {
   locations: require('./locations.js'),
   sciences: require('./sciences.js'),
   tags: require('./tags.js'),
-  faqs: require('./faqs.js')
+  faqs: require('./faqs.js'),
+  search: require('./search.js')
 };
