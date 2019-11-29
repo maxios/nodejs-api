@@ -1,18 +1,20 @@
 const Sequelize = require('sequelize');
-const DateFns = require('date-fns');
+// const DateFns = require('date-fns');
 const router = require('express').Router();
 const Session = require('@models').Session;
 const Location = require('@models').Location;
 const System = require('@models').System;
+const Instructor = require('@models').Instructor;
+const Tag = require('@models').Tag;
 const SessionEntity = require('@entities').SessionEntity;
 
 const serializeResult = result => SessionEntity.represent(result);
 const Op = Sequelize.Op;
 
 const filterSystem = function (query) {
-  if (query['system_uids']) {
+  if (query['system_ids']) {
     return {
-      where: {uid: query['system_uids']}
+      where: {uid: query['system_ids']}
     }
   }
 
@@ -20,9 +22,35 @@ const filterSystem = function (query) {
 }
 
 const filterLocation = function (query) {
-  if (query['location_uids']) {
+  if (query['location_ids']) {
     return {
-      where: {uid: query['location_uids']}
+      where: {uid: query['location_ids']}
+    }
+  }
+
+  return {};
+}
+
+const filterTag = function(query) {
+  if (query['tag_ids']) {
+    return {
+      where: {uid: query['tag_ids']}
+    }
+  }
+
+  if (query['tag_names']) {
+    return {
+      where: {name: query['tag_names']}
+    }
+  }
+
+  return {};
+}
+
+const filterInstructor = function(query) {
+  if (query['instructor_ids']) {
+    return {
+      where: {uid: query['instructor_ids']}
     }
   }
 
@@ -30,9 +58,13 @@ const filterLocation = function (query) {
 }
 
 const filterWhere = function(query) {
-  let where = {};
+  let where = {id: 1, 'Instructor.uid': query['instructor_ids']};
   if (query['days']) {
     where['days'] = {[Op.overlap]: query['days']}
+  }
+
+  if (query['rwaq_id']) {
+    where['rwaq_id'] = {rwaq_id: query['rwaq_id']}
   }
 
   return where;
@@ -57,7 +89,6 @@ const filterWhere = function(query) {
     }]
   */
 router.get('/', (req, res) => {
-  console.log(filterWhere(req.body));
   Session.findAll({
     include: [{
       model: System,
@@ -65,6 +96,12 @@ router.get('/', (req, res) => {
     }, {
       model: Location,
       ...filterLocation(req.body)
+    }, {
+      model: Tag,
+      ...filterTag(req.body)
+    }, {
+      model: Instructor
+      // ...filterInstructor(req.body)
     }],
     where: filterWhere(req.body)
   })
