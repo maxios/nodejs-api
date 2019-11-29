@@ -9,19 +9,41 @@ const SessionEntity = require('@entities').SessionEntity;
 const serializeResult = result => SessionEntity.represent(result);
 const Op = Sequelize.Op;
 
+const filterSystem = function (query) {
+  if (query['system_uids']) {
+    return {
+      where: {uid: query['system_uids']}
+    }
+  }
+
+  return {};
+}
+
+const filterLocation = function (query) {
+  if (query['location_uids']) {
+    return {
+      where: {uid: query['location_uids']}
+    }
+  }
+
+  return {};
+}
+
+const filterWhere = function(query) {
+  let where = {};
+  if (query['days']) {
+    where['days'] = {[Op.overlap]: query['days']}
+  }
+
+  return where;
+}
+
 /**
   /: get all sessions
-  */
-router.get('/', (req, res) => {
+
   const lastDayNextMonth = DateFns.lastDayOfMonth(DateFns.addMonths(new Date(), 1));
   const firstDayMonth = DateFns.startOfMonth(new Date());
 
-  Session.findAll({
-    include: [{
-      model: System
-    }, {
-      model: Location
-    }],
     where: [{
       [Op.or]: [{
         start_date: {
@@ -32,7 +54,19 @@ router.get('/', (req, res) => {
           [Op.between]: [firstDayMonth, lastDayNextMonth]
         }
       }]
-    }, req.body]
+    }]
+  */
+router.get('/', (req, res) => {
+  console.log(filterWhere(req.body));
+  Session.findAll({
+    include: [{
+      model: System,
+      ...filterSystem(req.body)
+    }, {
+      model: Location,
+      ...filterLocation(req.body)
+    }],
+    where: filterWhere(req.body)
   })
     .then(result => {
       res.json(serializeResult(result));
