@@ -6,7 +6,7 @@ const serializeResult = result => InstructorEntity.represent(result);
 
 // GET all Records
 router.get('/', (req, res) => {
-  Instructor.findAll({raw: true})
+  Instructor.findAll({raw: true, where: {visible: true}})
     .then(result => {
       res.json(serializeResult(result));
     })
@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
-  Instructor.findOne({where: {uid: req.params.uid}})
+  Instructor.findOne({where: {uid: req.params.uid, where: {visible: true}}})
     .then(result => res.json(serializeResult(result)))
     .catch(err => res.send(err));
 })

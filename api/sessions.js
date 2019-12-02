@@ -106,9 +106,10 @@ router.get('/', (req, res) => {
     where: filterWhere(req.body)
   })
     .then(result => {
+      console.log(result);
       res.json(serializeResult(result));
     })
-    .catch(err => res.send(err))
+    .catch(err => console.log(err))
 });
 
 // GET one record - where: uid

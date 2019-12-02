@@ -6,7 +6,7 @@ const serializeResult = result => SystemEntity.represent(result);
 
 // GET all Records
 router.get('/', (req, res) => {
-  System.findAll({raw: true})
+  System.findAll({raw: true, where: {visible: true}})
     .then(result => {
       res.json(serializeResult(result));
     })
@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
-  System.findOne({where: {uid: req.params.uid}})
+  System.findOne({where: {uid: req.params.uid, where: {visible: true}}})
     .then(result => res.json(serializeResult(result)))
     .catch(err => res.send(err));
 })

@@ -7,7 +7,7 @@ const serializeResult = result => LocationEntity.represent(result);
 
 // GET all Records
 router.get('/', (req, res) => {
-  Location.findAll({raw: true})
+  Location.findAll({raw: true, where: {visible: true}})
     .then(result => {
       res.json(serializeResult(result));
     })
@@ -24,7 +24,7 @@ router.get('/forest', (req, res) => {
 
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
-  Location.findOne({where: {uid: req.params.uid}})
+  Location.findOne({where: {uid: req.params.uid, visible: true}})
     .then(result => res.json(serializeResult(result)))
     .catch(err => res.send(err));
 })
