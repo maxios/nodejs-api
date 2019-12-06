@@ -58,7 +58,7 @@ const filterInstructor = function(query) {
 }
 
 const filterWhere = function(query) {
-  let where = {id: 1, 'Instructor.uid': query['instructor_ids']};
+  let where = {};
   if (query['days']) {
     where['days'] = {[Op.overlap]: query['days']}
   }
@@ -67,26 +67,29 @@ const filterWhere = function(query) {
     where['rwaq_id'] = {rwaq_id: query['rwaq_id']}
   }
 
+  if (query['after_date'] && query['before_date']) {
+    where['start_date'] = {[Op.between]: [query['after_date'], query['before_date']]}
+    where['end_date'] = {[Op.between]: [query['after_date'], query['before_date']]}
+
+    return where;
+  }
+
+  if (query['after_date']) {
+    where['start_date'] = {[Op.gte]: query['after_date']}
+    where['end_date'] = {[Op.gte]: query['after_date']}
+  }
+
+  if (query['end_date']) {
+    where['start_date'] = {[Op.gle]: query['after_date']}
+    where['end_date'] = {[Op.gle]: query['after_date']}
+  }
+
   return where;
 }
 
 /**
   /: get all sessions
 
-  const lastDayNextMonth = DateFns.lastDayOfMonth(DateFns.addMonths(new Date(), 1));
-  const firstDayMonth = DateFns.startOfMonth(new Date());
-
-    where: [{
-      [Op.or]: [{
-        start_date: {
-          [Op.between]: [firstDayMonth, lastDayNextMonth]
-        }
-      }, {
-        end_date: {
-          [Op.between]: [firstDayMonth, lastDayNextMonth]
-        }
-      }]
-    }]
   */
 router.get('/', (req, res) => {
   Session.findAll({
@@ -100,8 +103,8 @@ router.get('/', (req, res) => {
       model: Tag,
       ...filterTag(req.body)
     }, {
-      model: Instructor
-      // ...filterInstructor(req.body)
+      model: Instructor,
+      ...filterInstructor(req.body)
     }],
     where: filterWhere(req.body)
   })
