@@ -95,21 +95,20 @@ router.get('/', (req, res) => {
   Session.findAll({
     include: [{
       model: System,
-      ...filterSystem(req.body)
+      ...filterSystem(req.query)
     }, {
       model: Location,
-      ...filterLocation(req.body)
+      ...filterLocation(req.query)
     }, {
       model: Tag,
-      ...filterTag(req.body)
+      ...filterTag(req.query)
     }, {
       model: Instructor,
-      ...filterInstructor(req.body)
+      ...filterInstructor(req.query)
     }],
-    where: filterWhere(req.body)
+    where: filterWhere(req.query)
   })
     .then(result => {
-      console.log(result);
       res.json(serializeResult(result));
     })
     .catch(err => console.log(err))
