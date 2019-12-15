@@ -63,8 +63,8 @@ const filterWhere = function(query) {
     where['days'] = {[Op.overlap]: query['days']}
   }
 
-  if (query['rwaq_id']) {
-    where['rwaq_id'] = {rwaq_id: query['rwaq_id']}
+  if (query['rowaq_id']) {
+    where['rowaq_id'] = parseInt(query['rowaq_id'])
   }
 
   if (query['after_date'] && query['before_date']) {
@@ -111,14 +111,16 @@ router.get('/', (req, res) => {
     .then(result => {
       res.json(serializeResult(result));
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log(err)
+      res.send(err)
+    })
 });
 
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
   Session.findOne({raw: true, nest: true, where: {uid: req.params.uid}, include: [{model: Location}, {model: System}]})
     .then(result => {
-      console.log(result);
       return res.json(serializeResult(result))
     })
     .catch(err => res.send(err));

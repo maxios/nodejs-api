@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
       model: Location
     }],
     where: {
-      name: { [Op.like]: '%' + req.body['query'] + '%' }
+      name: { [Op.like]: '%' + req.query['query'] + '%' }
     }
   })
     .then(result => {
@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
       console.log('instructors', sessions);
       Instructor.findAll({
         where: {
-          name: { [Op.like]: '%' + req.body['query'] + '%' }
+          name: { [Op.like]: '%' + req.query['query'] + '%' }
         }
       })
         .then(result => {

@@ -20,5 +20,6 @@ module.exports = Base.extend({
   book: true,
   cost: true,
   payment_url: true,
+  rowaq_id: true,
   duration_in_minutes: true
 })
