@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Instructor = require('@models').Instructor;
 const InstructorEntity = require('@entities').InstructorEntity;
+const mapByProp = require('@utils').mapByProp
 
 const serializeResult = result => InstructorEntity.represent(result);
 
@@ -12,6 +13,14 @@ router.get('/', (req, res) => {
     })
     .catch(err => res.send(err))
 });
+
+router.get('/forest', (req, res) => {
+  Instructor.findAll({raw: true})
+    .then(result => {
+      res.json({data: mapByProp('name', serializeResult(result))});
+    })
+    .catch(err => res.send(err))
+})
 
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
