@@ -49,6 +49,8 @@ global['generate_science_parent_uid'] = function() {
         global['Science'].findOne({where: {id: parent_id}}).then(res => {
           science.update({parent_uid: res.get('uid')})
         }).catch(console.log)
+      } else {
+        science.update({parent_uid: null});
       }
     }).catch(console.log)
   })
