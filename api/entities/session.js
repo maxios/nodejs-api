@@ -1,6 +1,8 @@
 const Base = require('@entities/base');
 const Minimal = require('@entities/minimal');
-const Instructor = require('@entities/instructor');
+// const Instructor = require('@entities/instructor');
+const Tag = require('@entities/tag');
+// const Science = require('@entities/science');
 
 module.exports = Base.extend({
   name: true,
@@ -12,7 +14,9 @@ module.exports = Base.extend({
   days: true,
   System: { using: Minimal },
   Location: { using: Minimal },
-  Instructors: {using: Instructor},
+  Sciences: { using: Minimal },
+  Instructors: {using: Minimal},
+  Tags: {using: Tag},
   no_lectures: true,
   soundcloud_url: true,
   youtube_url: true,
