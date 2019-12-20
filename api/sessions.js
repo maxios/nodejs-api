@@ -6,6 +6,7 @@ const Location = require('@models').Location;
 const System = require('@models').System;
 const Instructor = require('@models').Instructor;
 const Tag = require('@models').Tag;
+const Science = require('@models').Science;
 const SessionEntity = require('@entities').SessionEntity;
 
 const serializeResult = result => SessionEntity.represent(result);
@@ -57,6 +58,16 @@ const filterInstructor = function(query) {
   return {};
 }
 
+const filterScience = function(query) {
+  if (query['science_ids']) {
+    return {
+      where: {uid: query['science_ids']}
+    }
+  }
+
+  return {};
+}
+
 const filterWhere = function(query) {
   let where = {};
   if (query['days']) {
@@ -99,6 +110,9 @@ router.get('/', (req, res) => {
     }, {
       model: Location,
       ...filterLocation(req.query)
+    }, {
+      model: Science,
+      ...filterScience(req.query)
     }, {
       model: Tag,
       ...filterTag(req.query)
