@@ -79,8 +79,10 @@ const filterWhere = function(query) {
   }
 
   if (query['after_date'] && query['before_date']) {
-    where['start_date'] = {[Op.between]: [query['after_date'], query['before_date']]}
-    where['end_date'] = {[Op.between]: [query['after_date'], query['before_date']]}
+    where[Op.or] = [
+      {start_date: {[Op.between]: [query['after_date'], query['before_date']]}},
+      {end_date: {[Op.between]: [query['before_date'], query['after_date']]}}
+    ]
 
     return where;
   }
