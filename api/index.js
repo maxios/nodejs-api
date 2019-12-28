@@ -6,5 +6,6 @@ module.exports = {
   sciences: require('./sciences.js'),
   tags: require('./tags.js'),
   faqs: require('./faqs.js'),
-  search: require('./search.js')
+  search: require('./search.js'),
+  payment: require('./payment.js')
 };
