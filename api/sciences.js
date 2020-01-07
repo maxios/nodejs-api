@@ -24,7 +24,7 @@ router.get('/forest', (req, res) => {
 
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
-  Science.findOne({where: {uid: req.params.uid}})
+  Science.findOne({where: {uid: req.query.uid}})
     .then(result => res.json(serializeResult(result)))
     .catch(err => res.send(err));
 })
@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
 
 // DELETE one record
 router.delete('/:uid', (req, res) => {
-  Science.destroy({where: {uid: req.params.uid}})
+  Science.destroy({where: {uid: req.query.uid}})
     .then(() => res.sendStatus(200))
     .catch(err => res.send(err))
 })

@@ -135,7 +135,7 @@ router.get('/', (req, res) => {
 
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
-  Session.findOne({raw: true, nest: true, where: {uid: req.params.uid}, include: [{model: Location}, {model: System}]})
+  Session.findOne({raw: true, nest: true, where: {uid: req.query.uid}, include: [{model: Location}, {model: System}]})
     .then(result => {
       return res.json(serializeResult(result))
     })
@@ -151,7 +151,7 @@ router.post('/', (req, res) => {
 
 // DELETE one record
 router.delete('/:uid', (req, res) => {
-  Session.destroy({where: {uid: req.params.uid}})
+  Session.destroy({where: {uid: req.query.uid}})
     .then(() => res.sendStatus(200))
     .catch(err => res.send(err))
 })
