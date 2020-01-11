@@ -24,7 +24,8 @@ router.get('/forest', (req, res) => {
 
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
-  Instructor.findOne({where: {uid: req.query.uid, where: {visible: true}}})
+  console.log(req.params);
+  Instructor.findOne({where: {uid: req.params.uid, visible: true}})
     .then(result => res.json(serializeResult(result)))
     .catch(err => res.send(err));
 })

@@ -135,7 +135,19 @@ router.get('/', (req, res) => {
 
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
-  Session.findOne({raw: true, nest: true, where: {uid: req.query.uid}, include: [{model: Location}, {model: System}]})
+  Session.findOne({
+    raw: true,
+    nest: true,
+    where: {uid: req.params.uid},
+    include: [{
+      model: Location
+    }, {
+      model: System,
+    }, {
+      model: Tag,
+    }, {
+      model: Instructor
+    }]})
     .then(result => {
       return res.json(serializeResult(result))
     })

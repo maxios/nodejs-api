@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
-  System.findOne({where: {uid: req.query.uid, where: {visible: true}}})
+  System.findOne({where: {uid: req.params.uid, visible: true}})
     .then(result => res.json(serializeResult(result)))
     .catch(err => res.send(err));
 })
