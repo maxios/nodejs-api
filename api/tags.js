@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
 
 // DELETE one record
 router.delete('/:uid', (req, res) => {
-  Tag.destroy({where: {uid: req.params.uid}})
+  Tag.destroy({where: {uid: req.query.uid}})
     .then(() => res.sendStatus(200))
     .catch(err => res.send(err))
 })
