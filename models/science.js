@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4
     },
     name: DataTypes.STRING,
-    parent_id: DataTypes.INTEGER,
     parent_uid: DataTypes.UUID
   }, {});
   Science.associate = function(models) {
