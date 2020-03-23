@@ -137,8 +137,6 @@ router.get('/', (req, res) => {
 // GET one record - where: uid
 router.get('/:uid', (req, res) => {
   Session.findOne({
-    raw: true,
-    nest: true,
     where: {uid: req.params.uid},
     include: [{
       model: Location
