@@ -20,7 +20,10 @@ router.get('/', (req, res) => {
       model: Location
     }],
     where: {
-      name: { [Op.like]: '%' + req.query['query'] + '%' }
+      [Op.or]: [
+        {name: { [Op.like]: '%' + req.query['query'] + '%' }},
+        {description: { [Op.like]: '%' + req.query['query'] + '%' }}
+      ]
     }
   })
     .then(result => {
