@@ -162,7 +162,9 @@ module.exports = {
     await queryInterface.bulkInsert('Systems', mappedSystems(data["Systems"]), {});
     await queryInterface.bulkInsert('Sessions', mappedCourses(data["Courses"]), {});
     await queryInterface.bulkInsert('Instructables', mappedInstructables(filterInstructor(data["Courses"])), {});
-    return queryInterface.bulkInsert('SessionSciences', mappedSessionScience(filterScience(data["Courses"])), {});
+    await queryInterface.bulkInsert('SessionSciences', mappedSessionScience(filterScience(data["Courses"])), {});
+
+    return queryInterface.sequelize.query(`ALTER SEQUENCE "Sessions_id_seq" RESTART WITH 600;`);
   },
   down: queryInterface => {
     return queryInterface.bulkDelete('sessions', null, {});
