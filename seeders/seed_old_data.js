@@ -164,7 +164,12 @@ module.exports = {
     await queryInterface.bulkInsert('Instructables', mappedInstructables(filterInstructor(data["Courses"])), {});
     await queryInterface.bulkInsert('SessionSciences', mappedSessionScience(filterScience(data["Courses"])), {});
 
-    return queryInterface.sequelize.query(`ALTER SEQUENCE "Sessions_id_seq" RESTART WITH 600;`);
+    await queryInterface.sequelize.query(`ALTER SEQUENCE "Sessions_id_seq" RESTART WITH 1010;`);
+    await queryInterface.sequelize.query(`ALTER SEQUENCE "SessionSciences_id_seq" RESTART WITH 1010;`);
+    await queryInterface.sequelize.query(`ALTER SEQUENCE "instructables_id_seq" RESTART WITH 1010;`);
+    await queryInterface.sequelize.query(`ALTER SEQUENCE "Systems_id_seq" RESTART WITH 100;`);
+    await queryInterface.sequelize.query(`ALTER SEQUENCE "Locations_id_seq" RESTART WITH 100;`);
+    return queryInterface.sequelize.query(`ALTER SEQUENCE "Sciences_id_seq" RESTART WITH 100;`);
   },
   down: queryInterface => {
     return queryInterface.bulkDelete('sessions', null, {});
