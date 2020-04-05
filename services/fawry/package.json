@@ -1,0 +1,47 @@
+{
+	"name": "fawry-node",
+	"version": "0.0.1",
+	"description": "A plug-and-play library to interface with Fawry's payment gateway API (charge, refund, payment status, service callback).",
+	"license": "MIT",
+	"repository": "fawry-api/fawry-node",
+	"author": {
+		"name": "Amr Bakry",
+		"email": "amrrbakry17@gmail.com",
+		"url": "https://github.com/fawry-api/fawry-node"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"scripts": {
+		"toBeTest": "xo && nyc ava",
+		"test": "true"
+	},
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"fawry",
+		"fawry-api",
+		"fawry-node"
+	],
+	"dependencies": {
+		"@hapi/joi": "^16.1.7",
+		"axios": "^0.19.0",
+		"query-string": "^6.8.3"
+	},
+	"devDependencies": {
+		"ava": "^2.1.0",
+		"codecov": "^3.5.0",
+		"nyc": "^14.1.1",
+		"xo": "^0.24.0"
+	},
+	"peerDependencies": {
+		"axios": "0.x"
+	},
+	"nyc": {
+		"reporter": [
+			"lcov",
+			"text"
+		]
+	}
+}

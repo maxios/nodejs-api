@@ -29,7 +29,6 @@ router.get('/', (req, res) => {
     .then(result => {
       const sessions = serializeSession(result);
 
-      console.log('instructors', sessions);
       Instructor.findAll({
         where: {
           name: { [Op.like]: '%' + req.query['query'] + '%' }
@@ -38,7 +37,6 @@ router.get('/', (req, res) => {
         .then(result => {
           const instructors = serializeInstructor(result);
 
-          console.log('instructors', instructors);
           res.json({sessions: sessions, instructors: instructors})
         })
         .catch(err => res.send(err));

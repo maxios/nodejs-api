@@ -1,6 +1,5 @@
 require('module-alias/register');
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const routes = require('./api');
@@ -21,6 +20,7 @@ app.use('/apis/sciences', routes.sciences);
 app.use('/apis/tags', routes.tags);
 app.use('/apis/faqs', routes.faqs);
 app.use('/apis/search', routes.search);
+app.use('/apis/payment', routes.payment);
 
 // boot the server
 app.listen(PORT, () => console.log(`listenting on port ${PORT}...`)).on('error', console.log);

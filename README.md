@@ -29,7 +29,10 @@ Deployment:
     ssh <VPC ADDRESS>
     cd <PROJECT PATH>
     git pull origin HEAD
+    source .env
     pm2 restart core
+
+note: .env file contains secret environment variables. update it manually, then source it using "source .env"
 
 API Doc:
 
