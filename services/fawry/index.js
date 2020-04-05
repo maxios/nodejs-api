@@ -1,6 +1,5 @@
 'use strict';
 
-const crypto = require('crypto');
 const axios = require('axios');
 const Joi = require('@hapi/joi');
 const queryString = require('query-string');
@@ -10,24 +9,19 @@ const BASE_URL = 'https://www.atfawry.com';
 const SANDBOX_BASE_URL = 'https://atfawry.fawrystaging.com';
 
 const getUrl = isSandbox => (isSandbox ? SANDBOX_BASE_URL : BASE_URL) + API_PATH;
-const getSignature = (...strings) => {
-	return crypto
-		.createHash('sha256')
-		.update(strings.join(''))
-		.digest('hex');
-};
+const generateSignature = require('@utils/signature');
 
 const validateCallbackParams = ({fawrySecureKey, params} = {}) => {
-	const signature = getSignature(
-		params.fawryRefNumber,
-		params.merchantRefNum,
-		params.paymentAmount,
-		params.orderAmount,
-		params.orderStatus,
-		params.paymentMethod,
-		params.paymentRefrenceNumber,
-		fawrySecureKey
-	);
+  const signature = generateSignature(
+    params.fawryRefNumber,
+    params.merchantRefNum,
+    params.paymentAmount,
+    params.orderAmount,
+    params.orderStatus,
+    params.paymentMethod,
+    params.paymentRefrenceNumber,
+    fawrySecureKey
+  );
 
 	const {error} = Joi.assert(
 		signature,
@@ -67,7 +61,7 @@ const init = config => {
 				throw error;
 			}
 
-			const signature = getSignature(
+			const signature = generateSignature(
 				value.merchantCode,
 				value.merchantRefNum,
 				value.customerProfileId,
@@ -91,7 +85,7 @@ const init = config => {
 				throw error;
 			}
 
-			const signature = getSignature(
+			const signature = generateSignature(
 				value.merchantCode,
 				value.referenceNumber,
 				value.refundAmount,
@@ -113,7 +107,7 @@ const init = config => {
 				throw error;
 			}
 
-			const signature = getSignature(
+			const signature = generateSignature(
 				value.merchantCode,
 				value.merchantRefNumber,
 				fawrySecureKey

@@ -1,14 +1,63 @@
 const router = require('express').Router();
-const schema = require('./validation/payment.js');
+const { paymentSchema, checkoutSchema } = require('./validation/payment.js');
 const fawry = require('../services/fawry');
 const uuid = require('uuidv4').default;
+const generateSignature = require('@utils/signature');
 
-// GET all Records
+router.post('/checkout', (req, res) => {
+  const validation = checkoutSchema.validate(req.body);
+  if (validation.error) res.json(validation.error["details"]);
+
+  const {
+    sessions,
+    customer,
+    expiry
+  } = req.body
+
+  const merchantRefNumber = `sheikhalamoud${uuid()}`
+  const { name, mobile, email } = customer;
+  const itemsSignature = sessions.map(({uid, quantity, cost}) => `${uid}${quantity}${cost}`).join('');
+
+  const signature = generateSignature(
+    process.env.FAWRY_MERCHANT_CODE,
+    merchantRefNumber,
+    itemsSignature,
+    expiry,
+    process.env.FAWRY_SECURE_KEY
+  );
+
+  res.json({
+    language: "ar-eg",
+    merchantCode: process.env.FAWRY_MERCHANT_CODE,
+    merchantRefNumber,
+    customer: {
+      name,
+      mobile,
+      email,
+    },
+    order: {
+      description: name,
+      expiry: expiry,
+      orderItems: sessions.map(session => ({
+        productSKU: session.uid,
+        description: session.name,
+        price: session.cost,
+        quantity: session.quantity,
+        width:"10",
+        height:"5",
+        length:"100",
+        weight:"1"
+      }))
+    },
+    signature
+  })
+});
+
 router.post('/', (req, res) => {
-  schema.validate(req.body);
-  const { session_id, session_name, mobile_number, amount, cardToken } = req.body;
+  paymentSchema.validate(req.body);
+  const { session_id, session_name, mobile_number, amount, card_token } = req.body;
 
-  const paymentMethod = cardToken ? 'CARD' : 'PAYATFAWRY';
+  const paymentMethod = card_token ? 'CARD' : 'PAYATFAWRY';
 
   const fawryClient = fawry.init({
     isSandbox: process.env.ENVIRONMENT,
