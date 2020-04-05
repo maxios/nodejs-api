@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-// const DateFns = require('date-fns');
 const router = require('express').Router();
 const Session = require('@models').Session;
 const Location = require('@models').Location;
