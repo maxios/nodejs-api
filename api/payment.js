@@ -6,7 +6,9 @@ const uuid = require('uuidv4').default;
 // GET all Records
 router.post('/', (req, res) => {
   schema.validate(req.body);
-  const { session_id, session_name, mobile_number, amount } = req.body;
+  const { session_id, session_name, mobile_number, amount, card_token } = req.body;
+
+  const paymentMethod = card_token ? 'CARD' : 'PAYATFAWRY';
 
   const fawryClient = fawry.init({
     isSandbox: process.env.ENVIRONMENT,
@@ -18,7 +20,7 @@ router.post('/', (req, res) => {
     merchantRefNum: session_id,
     customerProfileId: uuid(),
     customerMobile: mobile_number,
-    paymentMethod: 'PAYATFAWRY',
+    paymentMethod,
     currencyCode: 'EGP',
     amount,
     description: session_name,
@@ -30,7 +32,7 @@ router.post('/', (req, res) => {
     }]
   })
     .then(response => {
-      res.send(response.data)
+      res.json(response.data)
     })
     .catch(() => {
       res.send({statusCode: 400, message: 'Something Went Wrong.'})
@@ -52,7 +54,7 @@ router.get('/status', (req, res) => {
     .then(response => res.send(response.data))
     .catch(err => {
       console.log(err);
-      res.send({statusCode: 400, message: 'Something went wrong.'})
+      res.json({statusCode: 400, message: 'Something went wrong.'})
     })
 })
 
