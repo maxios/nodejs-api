@@ -5,7 +5,7 @@ const Tag = require('@entities/tag');
 // const Science = require('@entities/science');
 
 module.exports = Base.extend({
-  id: true,
+  uid: true,
   name: true,
   description: true,
   start_time: true,

@@ -21,6 +21,7 @@
     "@entities": "api/entities",
     "@constants": "utils/constants",
     "@services": "./services",
+    "@config": "./config",
     "@utils": "utils"
   },
   "dependencies": {

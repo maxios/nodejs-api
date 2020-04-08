@@ -1,56 +1,81 @@
 const router = require('express').Router();
+const R = require('ramda');
 const { paymentSchema, checkoutSchema } = require('./validation/payment.js');
 const fawry = require('../services/fawry');
+const { fawry_secure_key, fawry_merchant_code, fawry_expiry } = require('@config/env');
 const uuid = require('uuidv4').default;
-const generateSignature = require('@utils/signature');
+const { generateSignature } = require('@utils/signature');
+const Session = require('@models').Session;
 
-router.post('/checkout', (req, res) => {
+router.post('/checkout', async (req, res) => {
   const validation = checkoutSchema.validate(req.body);
   if (validation.error) res.json(validation.error["details"]);
 
-  const {
-    sessions,
-    customer,
-    expiry
-  } = req.body
+  const sortByUid = R.sortBy(R.prop('uid'));
+  const findInRequest = session_uid => R.find(
+    R.propEq('uid', session_uid)
+  )(req.body.sessions)
 
-  const merchantRefNumber = `sheikhalamoud${uuid()}`
-  const { name, mobile, email } = customer;
-  const itemsSignature = sessions.map(({uid, quantity, cost}) => `${uid}${quantity}${cost}`).join('');
+  // get sessions name and cost and populate them with correspondants quantities
+  const items = await Session.findAll({
+    raw: true,
+    attributes: ['uid', 'name', 'cost'],
+    where: { uid: R.pluck('uid', req.body.sessions) }
+  })
 
+    .then(
+      R.compose(
+        R.map(session => ({
+          ...session,
+          quantity: findInRequest(session.uid).quantity
+        })),
+        sortByUid
+      )
+    )
+
+    .catch(error => {
+      console.log('[ERROR]', error)
+      res.json({statusCode: 400, message: 'Something went wrong!'})
+    });
+
+  const merchantRefNumber = uuid();
   const signature = generateSignature(
-    process.env.FAWRY_MERCHANT_CODE,
+    fawry_merchant_code,
     merchantRefNumber,
-    itemsSignature,
-    expiry,
-    process.env.FAWRY_SECURE_KEY
+    R.map(
+      ({uid, quantity, cost}) => {
+        return `${uid}${quantity}${cost}`
+      })(items)
+    .join(''),
+    fawry_expiry,
+    fawry_secure_key
   );
 
-  res.json({
+  const params = {
     language: "ar-eg",
     merchantCode: process.env.FAWRY_MERCHANT_CODE,
     merchantRefNumber,
-    customer: {
-      name,
-      mobile,
-      email,
-    },
     order: {
-      description: name,
-      expiry: expiry,
-      orderItems: sessions.map(session => ({
-        productSKU: session.uid,
-        description: session.name,
-        price: session.cost,
-        quantity: session.quantity,
+      expiry: fawry_expiry,
+      orderItems: R.map(item => ({
+        productSKU: item.uid,
+        description: item.name,
+        price: item.cost,
+        quantity: item.quantity,
         width:"10",
         height:"5",
         length:"100",
         weight:"1"
-      }))
+      }))(items)
     },
     signature
-  })
+  }
+
+  if (req.body.customer) {
+    params['customer'] = req.body.customer
+  }
+
+  res.json(params)
 });
 
 router.post('/', (req, res) => {
@@ -102,7 +127,7 @@ router.get('/status', (req, res) => {
   })
     .then(response => res.send(response.data))
     .catch(err => {
-      console.log(err);
+      console.log('[ERROR]', err);
       res.json({statusCode: 400, message: 'Something went wrong.'})
     })
 })
