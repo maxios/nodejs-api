@@ -11,8 +11,8 @@ module.exports.paymentSchema = Joi.object({
 module.exports.checkoutSchema = Joi.object({
 	sessions: Joi.array().items(Joi.object({
 		uid: Joi.string().required(),
-		quantity: Joi.number().integer().required()
-	})),
+    quantity: Joi.number().strict().min(1).required()
+	})).required(),
 	customer: Joi.object({
 		name: Joi.string(),
 		email: Joi.string(),
