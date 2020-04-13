@@ -7,6 +7,9 @@ const uuid = require('uuidv4').default;
 const { generateSignature } = require('@utils/signature');
 const Session = require('@models').Session;
 
+/**
+ * NOTE: the uid of merchantRefNumber and ProductSKU is modified to have no (-) hiphen so that its length almost 32 as required in fawry
+ */
 router.post('/checkout', async (req, res) => {
   const validation = checkoutSchema.validate(req.body);
   if (validation.error) res.json(validation.error["details"]);
@@ -38,7 +41,7 @@ router.post('/checkout', async (req, res) => {
       res.json({statusCode: 400, message: 'Something went wrong!'})
     });
 
-  const merchantRefNumber = uuid();
+  const merchantRefNumber = uuid().split('-').join('');
   const signature = generateSignature(
     fawry_merchant_code,
     merchantRefNumber,
@@ -58,7 +61,7 @@ router.post('/checkout', async (req, res) => {
     order: {
       expiry: fawry_expiry,
       orderItems: R.map(item => ({
-        productSKU: item.uid,
+        productSKU: item.uid.split('-').join(''),
         description: item.name,
         price: item.cost,
         quantity: item.quantity,
