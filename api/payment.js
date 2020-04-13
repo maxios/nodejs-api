@@ -41,7 +41,8 @@ router.post('/checkout', async (req, res) => {
       res.json({statusCode: 400, message: 'Something went wrong!'})
     });
 
-  const merchantRefNumber = uuid().split('-').join('');
+  // the uid of merchantRefNumber is uuid v4 without (-) hiphen. replaced the 7 chars with Alamoud string.
+  const merchantRefNumber = uuid().split('-').join('').replace(/^.{7}/g, "ALAMOUD");
   const signature = generateSignature(
     fawry_merchant_code,
     merchantRefNumber,
