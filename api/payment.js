@@ -10,6 +10,8 @@ const Ticket = require('@models').Ticket;
 const SessionEntity = require('@entities').SessionEntity;
 
 const serializeSession = result => SessionEntity.represent(result);
+const getSession = session_id => R.find(R.propEq('uid', session_id));
+const getTicket = (ticket_id) => R.find(R.propEq( 'uid', ticket_id));
 
 /**
  * NOTE: the uid of merchantRefNumber and ProductSKU is modified to have no (-) hiphen so that its length almost 32 as required in fawry
@@ -18,43 +20,30 @@ router.post('/checkout', async (req, res) => {
   const validation = checkoutSchema.validate(req.body);
   if (validation.error) res.json(validation.error["details"]);
 
-  const findInRequest = session_uid => R.find(
-    R.propEq('session_id', session_uid)
-  )(req.body.tickets)
-
   // get sessions name and cost and populate them with correspondants quantities
   const items = await Session.findAll({
     attributes: ['uid', 'name'],
     include: { model: Ticket },
     where: { uid: R.pluck('session_id', req.body.tickets) }
   })
-
+    .then(serializeSession)
     .then(sessions => {
-      const Sessions = serializeSession(sessions)
-      console.log(Sessions);
-      const getSession = session_id => R.find(R.propEq('uid', session_id))(Sessions);
-      const getTicketId = session_id => {
-        const ticket_id = findInRequest(session_id).ticket_id
-        const session = getSession(session_id);
-        const isTicketExist = R.find(R.propEq('uid', ticket_id))(session.Tickets)
-
-        if (R.not(isTicketExist)) return res.json({
-          statusCode: 500,
-          message: `the ${session.name} has no requested ticket id: ${ticket_id}`
-        })
-
-        return ticket_id
-      }
       const sortByUid = R.sortBy(R.prop('uid'));
+      const constructItem = ({ ticket_id, session_id, quantity }) => {
+        const session = getSession(session_id)(sessions);
+        const ticket = getTicket(ticket_id)(session.Tickets);
+
+        if (R.isNil(ticket)) res.json({statusCode: 500, message: `The ${session.name} has no required ticket id: ${ticket_id}`})
+        return ({
+          ...session,
+          uid: session.uid.split('-')[0] + ticket.uid.split('-')[0],
+          cost: ticket.cost,
+          quantity: quantity
+        })
+      }
 
       return R.compose(
-        R.map(ticket => ({
-          ...getSession(ticket.session_id),
-          cost: R.find(
-            R.propEq( 'uid', ticket.ticket_id)
-          )(getSession(ticket.session_id).Tickets).cost,
-          quantity: ticket.quantity
-        })),
+        R.map(constructItem),
         sortByUid
       )(req.body.tickets)
     })
@@ -85,7 +74,7 @@ router.post('/checkout', async (req, res) => {
     order: {
       expiry: fawry_expiry,
       orderItems: R.map(item => ({
-        productSKU: item.uid.split('-').join(''),
+        productSKU: item.uid,
         description: item.name,
         price: item.cost,
         quantity: item.quantity,
