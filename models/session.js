@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
       through: 'Taggable',
       foreignKey: 'session_id'
     });
+    Session.belongsToMany(models.Tag, {
+      through: 'Ticketable',
+      foreignKey: 'session_id'
+    });
     Session.belongsToMany(models.Instructor, {
       through: 'Instructable',
       foreignKey: 'session_id'
