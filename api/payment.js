@@ -6,6 +6,10 @@ const { fawry_secure_key, fawry_merchant_code, fawry_expiry } = require('@config
 const uuid = require('uuidv4').default;
 const { generateSignature } = require('@utils/signature');
 const Session = require('@models').Session;
+const Ticket = require('@models').Ticket;
+const SessionEntity = require('@entities').SessionEntity;
+
+const serializeSession = result => SessionEntity.represent(result);
 
 /**
  * NOTE: the uid of merchantRefNumber and ProductSKU is modified to have no (-) hiphen so that its length almost 32 as required in fawry
@@ -14,31 +18,50 @@ router.post('/checkout', async (req, res) => {
   const validation = checkoutSchema.validate(req.body);
   if (validation.error) res.json(validation.error["details"]);
 
-  const sortByUid = R.sortBy(R.prop('uid'));
   const findInRequest = session_uid => R.find(
-    R.propEq('uid', session_uid)
-  )(req.body.sessions)
+    R.propEq('session_id', session_uid)
+  )(req.body.tickets)
 
   // get sessions name and cost and populate them with correspondants quantities
   const items = await Session.findAll({
-    raw: true,
-    attributes: ['uid', 'name', 'cost'],
-    where: { uid: R.pluck('uid', req.body.sessions) }
+    attributes: ['uid', 'name'],
+    include: { model: Ticket },
+    where: { uid: R.pluck('session_id', req.body.tickets) }
   })
 
-    .then(
-      R.compose(
-        R.map(session => ({
-          ...session,
-          quantity: findInRequest(session.uid).quantity
+    .then(sessions => {
+      const Sessions = serializeSession(sessions)
+      console.log(Sessions);
+      const getSession = session_id => R.find(R.propEq('uid', session_id))(Sessions);
+      const getTicketId = session_id => {
+        const ticket_id = findInRequest(session_id).ticket_id
+        const session = getSession(session_id);
+        const isTicketExist = R.find(R.propEq('uid', ticket_id))(session.Tickets)
+
+        if (R.not(isTicketExist)) return res.json({
+          statusCode: 500,
+          message: `the ${session.name} has no requested ticket id: ${ticket_id}`
+        })
+
+        return ticket_id
+      }
+      const sortByUid = R.sortBy(R.prop('uid'));
+
+      return R.compose(
+        R.map(ticket => ({
+          ...getSession(ticket.session_id),
+          cost: R.find(
+            R.propEq( 'uid', ticket.ticket_id)
+          )(getSession(ticket.session_id).Tickets).cost,
+          quantity: ticket.quantity
         })),
         sortByUid
-      )
-    )
+      )(req.body.tickets)
+    })
 
     .catch(error => {
       console.log('[ERROR]', error)
-      res.json({statusCode: 400, message: 'Something went wrong!'})
+      res.json({statusCode: 400, message: error.message})
     });
 
   // the uid of merchantRefNumber is uuid v4 without (-) hiphen. replaced the 7 chars with Alamoud string.

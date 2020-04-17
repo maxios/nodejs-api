@@ -2,6 +2,7 @@ const Base = require('@entities/base');
 const Minimal = require('@entities/minimal');
 // const Instructor = require('@entities/instructor');
 const Tag = require('@entities/tag');
+const Ticket = require('./ticket');
 // const Science = require('@entities/science');
 
 module.exports = Base.extend({
@@ -18,6 +19,7 @@ module.exports = Base.extend({
   Location: { using: Minimal },
   Sciences: { using: Minimal },
   Instructors: {using: Minimal},
+  Tickets: { using: Ticket },
   Tags: {using: Tag},
   no_lectures: true,
   soundcloud_url: true,

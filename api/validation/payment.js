@@ -9,8 +9,9 @@ module.exports.paymentSchema = Joi.object({
 })
 
 module.exports.checkoutSchema = Joi.object({
-	sessions: Joi.array().items(Joi.object({
-		uid: Joi.string().required(),
+	tickets: Joi.array().items(Joi.object({
+		ticket_id: Joi.string().required(),
+		session_id: Joi.string().required(),
     quantity: Joi.number().strict().min(1).required()
 	})).required(),
 	customer: Joi.object({
