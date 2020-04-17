@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
+    cost: DataTypes.FLOAT,
     name: DataTypes.STRING
   }, {});
   Ticket.associate = function(models) {
