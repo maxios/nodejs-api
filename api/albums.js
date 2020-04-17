@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { lstatSync, readdirSync } = require('fs')
 const { join } = require('path')
 
-const BASE_URL = 'https://sheikhalamoud.com';
+const BASE_URL = 'https://sheikhalamoud.org';
 const ALBUM_BASE_PATH = '../sheikhalamoud/dist/sheikh/static/albums';
 
 const isDirectory = source => lstatSync(source).isDirectory()
