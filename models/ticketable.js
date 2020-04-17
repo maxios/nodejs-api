@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
-    tag_id: DataTypes.INTEGER,
+    ticket_id: DataTypes.INTEGER,
     session_id: DataTypes.INTEGER
   }, {});
   Ticketable.associate = function(models) {

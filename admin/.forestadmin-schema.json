@@ -687,6 +687,21 @@
       "relationship": "BelongsToMany",
       "validations": []
     }, {
+      "field": "Tickets",
+      "type": ["Number"],
+      "defaultValue": null,
+      "enums": null,
+      "integration": null,
+      "isFilterable": true,
+      "isReadOnly": false,
+      "isRequired": false,
+      "isSortable": true,
+      "isVirtual": false,
+      "reference": "Ticket.session_id",
+      "inverseOf": null,
+      "relationship": "BelongsToMany",
+      "validations": []
+    }, {
       "field": "book",
       "type": "String",
       "defaultValue": null,
@@ -1332,20 +1347,6 @@
       "relationship": "BelongsTo",
       "validations": []
     }, {
-      "field": "SessionId",
-      "type": "Number",
-      "defaultValue": null,
-      "enums": null,
-      "integration": null,
-      "isFilterable": true,
-      "isReadOnly": false,
-      "isRequired": false,
-      "isSortable": true,
-      "isVirtual": false,
-      "reference": null,
-      "inverseOf": null,
-      "validations": []
-    }, {
       "field": "Tag",
       "type": "Number",
       "defaultValue": null,
@@ -1571,20 +1572,6 @@
       "relationship": "BelongsTo",
       "validations": []
     }, {
-      "field": "SessionId",
-      "type": "Number",
-      "defaultValue": null,
-      "enums": null,
-      "integration": null,
-      "isFilterable": true,
-      "isReadOnly": false,
-      "isRequired": false,
-      "isSortable": true,
-      "isVirtual": false,
-      "reference": null,
-      "inverseOf": null,
-      "validations": []
-    }, {
       "field": "Ticket",
       "type": "Number",
       "defaultValue": null,
@@ -1615,20 +1602,6 @@
       "validations": []
     }, {
       "field": "session_id",
-      "type": "Number",
-      "defaultValue": null,
-      "enums": null,
-      "integration": null,
-      "isFilterable": true,
-      "isReadOnly": false,
-      "isRequired": false,
-      "isSortable": true,
-      "isVirtual": false,
-      "reference": null,
-      "inverseOf": null,
-      "validations": []
-    }, {
-      "field": "tag_id",
       "type": "Number",
       "defaultValue": null,
       "enums": null,
