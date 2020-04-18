@@ -5,6 +5,7 @@ const Location = require('@models').Location;
 const System = require('@models').System;
 const Instructor = require('@models').Instructor;
 const Tag = require('@models').Tag;
+const Ticket = require('@models').Ticket;
 const Science = require('@models').Science;
 const SessionEntity = require('@entities').SessionEntity;
 
@@ -119,6 +120,8 @@ router.get('/', (req, res) => {
       model: Tag,
       ...filterTag(req.query)
     }, {
+      model: Ticket
+    } ,{
       model: Instructor,
       ...filterInstructor(req.query)
     }],
@@ -129,7 +132,7 @@ router.get('/', (req, res) => {
     })
     .catch(err => {
       console.log(err)
-      res.send(err)
+      res.json(err.message)
     })
 });
 
@@ -144,12 +147,14 @@ router.get('/:uid', (req, res) => {
     }, {
       model: Tag,
     }, {
+      model: Ticket,
+    }, {
       model: Instructor
     }]})
     .then(result => {
       return res.json(serializeResult(result))
     })
-    .catch(err => res.send(err));
+    .catch(err => res.json(err.message));
 })
 
 // POST create record

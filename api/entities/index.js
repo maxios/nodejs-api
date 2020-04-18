@@ -5,5 +5,6 @@ module.exports = {
   TagEntity: require('./tag'),
   InstructorEntity: require('./instructor'),
   LocationEntity: require('./location'),
-  FaqEntity: require('./faq')
+  FaqEntity: require('./faq'),
+  TicketEntity: require('./ticket')
 }
