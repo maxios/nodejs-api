@@ -21,11 +21,21 @@ const photos = album_name => getFiles(`${ALBUM_BASE_PATH}/${album_name}`)
  * Get latest photo from the album and return its URL
  */
 const getPreviewPhoto = album_name => {
-  const photos_names = readdirSync(`${ALBUM_BASE_PATH}/${album_name}`);
+  const album_path = `${ALBUM_BASE_PATH}/${album_name}`;
 
-  const photosStats = photos_names.map(photo_name => ({name: photo_name, stat: statSync(`${ALBUM_BASE_PATH}/${album_name}/${photo_name}`)}))
+  // get all album photos (names)
+  const photos_names = readdirSync(album_path);
+
+  // get all photos information stats
+  const photosStats = photos_names.map(photo_name => ({
+    name: photo_name,
+    stat: statSync(`${album_path}/${photo_name}`)
+  }))
+
+  // sort by latest
   const sortedPhotos = R.sortBy(R.path(['stat', 'ctime']))(photosStats)
 
+  // construct latest photo url
   return `${ALBUMS_URL}/${album_name}/${sortedPhotos[0].name}`;
 }
 
