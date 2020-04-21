@@ -177,8 +177,22 @@ Response: Array<Object>
        answer: longText
 }]
 ```
-## Exposed Endpoints for admin-forest for listing with the name space /forest
-### GET all Location names {/apis/locations/forest}
-### GET all Science names {/apis/sciences/forest}
-### GET all instructor names {/apis/instructors/forest}
-### GET all tag names {/apis/tags/forest}
+
+# Database Regular Backup:
+
+database backup happen every Friday.
+
+postgresql database regularly backedup by a cron
+to check the cron command write the following on the server:
+
+        crontab -e
+
+the database backup cron command is:
+
+        0 0 1 1-12 5 sudo pg_dump -U alamoud -Fc sheikh_alamoud_production > /home/backups/$(date +\%Y\%m\%d\%H\%M\%S)_sheikh_alamoud_production_backup.sql > /var/log/backup.log
+
+to restart cron after modification use:
+
+        sudo systemctl restart cron.service
+
+to generate a cron command use: https://crontab-generator.org/

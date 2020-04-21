@@ -23,36 +23,42 @@ const photos = album_name => getFiles(`${ALBUM_BASE_PATH}/${album_name}`)
 const getPreviewPhoto = album_name => {
   const album_path = `${ALBUM_BASE_PATH}/${album_name}`;
 
-  // get all album photos (names)
+  // [1] get all album photos (names)
   const photos_names = readdirSync(album_path);
 
-  // get all photos information stats
+  // [2] get all photos information stats
   const photosStats = photos_names.map(photo_name => ({
     name: photo_name,
     stat: statSync(`${album_path}/${photo_name}`)
   }))
 
-  // sort by latest
+  // [3] sort by latest
   const sortedPhotos = R.sortBy(R.path(['stat', 'ctime']))(photosStats)
 
-  // construct latest photo url
+  // [4] construct latest photo url
   return `${ALBUMS_URL}/${album_name}/${sortedPhotos[0].name}`;
 }
 
-// get albums names and latest image preview
+/**
+ * Get albums names with a preview image
+ */
 router.get('/', (req, res) => {
   const response = albums.map(album => ({name: album, preview: getPreviewPhoto(album)}))
   res.json(response);
 });
 
-// Get all Photos
+/**
+ * Get all photos with their album names
+ */
 router.get('/photos', (req, res) => {
   const allPhotos = albums.map(photos).flat();
 
   res.json(allPhotos);
 })
 
-// Get photos in one album
+/**
+ * Get all photos of specific album
+ */
 router.get('/:album_name', (req, res) => {
   const { album_name } = req.params;
 
