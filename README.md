@@ -191,6 +191,13 @@ the database backup cron command is:
 
         0 0 1 1-12 5 sudo pg_dump -U alamoud -Fc sheikh_alamoud_production > /home/backups/$(date +\%Y\%m\%d\%H\%M\%S)_sheikh_alamoud_production_backup.sql > /var/log/backup.log
 
+NOTE: in order to make this command working the file .pgpass must be exist in $HOME directory ~/. it contains the following line:
+
+        localhost:5432:DATABSE_NAME:DATABASE_USERNAME:DATABASE_PASSWORD
+
+replace DATABASE_NAME, DATABSE_USERNAME, DATABASE_PASSWORD
+with your intended values.
+
 to restart cron after modification use:
 
         sudo systemctl restart cron.service
