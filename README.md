@@ -196,10 +196,17 @@ NOTE: in order to make this command working the file .pgpass must be exist in $H
         localhost:5432:DATABSE_NAME:DATABASE_USERNAME:DATABASE_PASSWORD
 
 replace DATABASE_NAME, DATABSE_USERNAME, DATABASE_PASSWORD
-with your intended values.
+with your intended values. like this localhost:5432:sheikh_alamoud_production:alamoud:1234samplePassword
 
 to restart cron after modification use:
 
         sudo systemctl restart cron.service
 
 to generate a cron command use: https://crontab-generator.org/
+
+
+to restore database at certain time use this command:
+
+        pg_restore -U alamoud -d sheikh_alamoud_production < /home/backups/NAME_OF_DATABASE_FILE
+
+replace NAME_OF_DATABASE_FILE with the database file
