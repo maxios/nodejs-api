@@ -21,7 +21,7 @@ app.use('/apis/tags', routes.tags);
 app.use('/apis/faqs', routes.faqs);
 app.use('/apis/search', routes.search);
 app.use('/apis/payment', routes.payment);
-app.use('/apis/albums', routes.albums);
+// app.use('/apis/albums', routes.albums);
 
 // boot the server
 app.listen(PORT, () => console.log(`listenting on port ${PORT}...`)).on('error', console.log);

@@ -6,6 +6,8 @@ module.exports = {
     "database": "sheikh_alamoud_development",
     "host": "localhost",
     "dialect": "postgres",
+    "username": 'maxios',
+    "password": 'khalidmaxios',
     "define": {
       "charset": 'utf8',
       "collate": 'utf8_general_ci'
@@ -13,8 +15,8 @@ module.exports = {
   },
   "production": {
     "fawry_charge": "https://www.atfawry.com/ECommerceWeb/Fawry/payments/charge",
-    "username": database_username,
-    "password": database_password,
+    "username": 'alamoud',
+    "password": 'alamoud',
     "database": "sheikh_alamoud_production",
     "host": "localhost",
     "dialect": "postgres",
