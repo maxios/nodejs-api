@@ -6,8 +6,6 @@ module.exports = {
     "database": "sheikh_alamoud_development",
     "host": "localhost",
     "dialect": "postgres",
-    "username": 'maxios',
-    "password": 'khalidmaxios',
     "define": {
       "charset": 'utf8',
       "collate": 'utf8_general_ci'

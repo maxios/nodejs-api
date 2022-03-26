@@ -47,7 +47,7 @@ global['generate_science_parent_uid'] = function() {
       const parent_id = science.get('parent_id');
       if(parent_id !== null) {
         global['Science'].findOne({where: {id: parent_id}}).then(res => {
-          console.log(res);
+          console.log('succesfully migrate Science structure');
           if (res){
             science.update({parent_uid: res.get('uid')})
           }

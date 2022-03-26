@@ -40,7 +40,7 @@
     "lumber-forestadmin": "^1.5.1",
     "module-alias": "^2.2.2",
     "path": "^0.12.7",
-    "pg": "^7.12.1",
+    "pg": "^8.2.1",
     "query-string": "^6.11.1",
     "ramda": "^0.26.1",
     "sequelize": "^5.19.3",
