@@ -1,10 +1,12 @@
-const { database_username, database_password } = require('./env');
+const { database_username, database_password, database_name, database_host } = require('./env');
 
 module.exports = {
   "development": {
     "fawry_charge": "https://atfawry.fawrystaging.com//ECommerceWeb/Fawry/payments/charge",
-    "database": "sheikh_alamoud_development",
-    "host": "localhost",
+    "username": database_username,
+    "password": database_password,
+    "database": database_name,
+    "host": database_host,
     "dialect": "postgres",
     "define": {
       "charset": 'utf8',
@@ -13,10 +15,10 @@ module.exports = {
   },
   "production": {
     "fawry_charge": "https://www.atfawry.com/ECommerceWeb/Fawry/payments/charge",
-    "username": 'alamoud',
-    "password": 'alamoud',
-    "database": "sheikh_alamoud_production",
-    "host": "localhost",
+    "username": database_username,
+    "password": database_password,
+    "database": database_name,
+    "host": database_host,
     "dialect": "postgres",
     "define": {
       "charset": 'utf8',

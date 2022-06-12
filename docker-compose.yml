@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  swag:
+    image: linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    depends_on:
+      - api
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+      - URL=sheikhalamoud.org
+      - SUBDOMAINS=www
+      - VALIDATION=http
+    env_file:
+      - .envs/.postgres
+    volumes:
+      - /opt/swag:/config
+      - ./nginx/nginx.conf:/config/nginx/site-confs/default
+      - ../sheikhalamoud/dist/sheikh:/usr/share/nginx/html
+    ports:
+      - 443:443
+      - 80:80
+    restart: unless-stopped
+
+  api:
+      container_name: sham_api
+      image: sham_api
+      build:
+          context: .
+          dockerfile: Dockerfile
+      env_file:
+        - .envs/.api
+      restart: on-failure
+
+  postgres:
+    image: postgres:12.8
+    container_name: postgres
+    volumes:
+      - sheikhalamoud_postgres:/var/lib/postgresql/data
+    env_file:
+      - .envs/.postgres
+
+networks:
+  default:
+    name: sheikhalamoud-network
+
+volumes:
+  sheikhalamoud_postgres: {}
